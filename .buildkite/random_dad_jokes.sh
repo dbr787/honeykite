@@ -18,8 +18,8 @@ should_fail() {
 }
 
 # Read environment variables
-DURATION=${DURATION:-10}
-DURATION_VARIABILITY=${DURATION_VARIABILITY:-5}
+DURATION=${DURATION:-60}
+DURATION_VARIABILITY=${DURATION_VARIABILITY:-30}
 FAILURE_CHANCE=${FAILURE_CHANCE:-10}
 
 # Calculate random variation
@@ -58,8 +58,7 @@ JOKES_COUNT=${#JOKES[@]}
 while [ $(date +%s) -lt $END_TIME ]; do
   sleep 2
   RANDOM_JOKE_INDEX=$(random_int 0 $((JOKES_COUNT - 1)))
-  TIMESTAMP=$(date "+%Y-%m-%d %H:%M:%S")
-  echo "$TIMESTAMP [INFO] ${JOKES[$RANDOM_JOKE_INDEX]}"
+  echo "${JOKES[$RANDOM_JOKE_INDEX]}"
 done
 
 # Output final result based on WILL_FAIL
