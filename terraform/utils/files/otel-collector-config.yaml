@@ -1,0 +1,25 @@
+receivers:
+  otlp:
+    protocols:
+      grpc:
+        endpoint: 0.0.0.0:4317
+
+exporters:
+  otlp:
+    endpoint: "api.honeycomb.io:443"
+    headers:
+      "x-honeycomb-team": "${HONEYCOMB_API_KEY}"
+
+processors:
+  resource:
+    attributes:
+      - key: service.name
+        value: "${OTEL_SERVICE_NAME}"
+        action: upsert
+
+service:
+  pipelines:
+    traces:
+      receivers: [otlp]
+      processors: [resource]
+      exporters: [otlp]

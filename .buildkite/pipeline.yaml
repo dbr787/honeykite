@@ -1,0 +1,7 @@
+steps:
+  - label: "Dad?"
+    command: ".buildkite/random_dad_jokes.sh"
+    env:
+      DURATION: 10
+      DURATION_VARIABILITY: 5
+      FAILURE_CHANCE: 20
