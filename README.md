@@ -6,6 +6,7 @@ A demo showcasing how to send OpenTelemetry trace data from the Buildkite agent 
 
 ## To Do
 
+- Transition to using buildevents instead of OTEL?
 - Add terraform to creat Buildkite cluster, pipeline, agent token, schedule
 - Reconsider using ssm vs just placing keys in files on s3
 - Rename modules to core, user, elastic_ci_stack
