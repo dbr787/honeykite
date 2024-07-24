@@ -1,24 +1,35 @@
 steps:
-  - label: "build"
-    key: "build"
-    command: ".buildkite/random_dad_jokes.sh"
-    env:
-      DURATION: 30
-      DURATION_VARIABILITY: 30
-      FAILURE_CHANCE: 2
-  - label: "test"
-    key: "test"
-    command: ".buildkite/random_dad_jokes.sh"
-    env:
-      DURATION: 60
-      DURATION_VARIABILITY: 30
-      FAILURE_CHANCE: 30
-    depends_on: "build"
-  - label: "deploy"
-    key: "deploy"
-    command: ".buildkite/random_dad_jokes.sh"
-    env:
-      DURATION: 90
-      DURATION_VARIABILITY: 60
-      FAILURE_CHANCE: 10
-    depends_on: "test"
+  - label: "first"
+    key: first
+    command: "echo first"
+  - label: "hi"
+    command: "echo hi"
+  - label: "bye"
+    command: "echo bye"
+  - label: "last"
+    key: last
+    command: "echo last"
+# steps:
+#   - label: "build"
+#     key: "build"
+#     command: ".buildkite/random_dad_jokes.sh"
+#     env:
+#       DURATION: 30
+#       DURATION_VARIABILITY: 30
+#       FAILURE_CHANCE: 2
+#   - label: "test"
+#     key: "test"
+#     command: ".buildkite/random_dad_jokes.sh"
+#     env:
+#       DURATION: 60
+#       DURATION_VARIABILITY: 30
+#       FAILURE_CHANCE: 30
+#     depends_on: "build"
+#   - label: "deploy"
+#     key: "deploy"
+#     command: ".buildkite/random_dad_jokes.sh"
+#     env:
+#       DURATION: 90
+#       DURATION_VARIABILITY: 60
+#       FAILURE_CHANCE: 10
+#     depends_on: "test"
