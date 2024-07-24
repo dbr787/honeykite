@@ -1,7 +1,7 @@
 steps:
-  - label: "first"
-    key: first
-    command: "echo first"
+  # - label: "first"
+  #   key: first
+  #   command: "echo first"
   - label: "hi"
     command: "echo hi"
   - label: "bye"
