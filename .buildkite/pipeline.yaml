@@ -12,14 +12,14 @@ steps:
 steps:
   - label: "build"
     key: "build"
-    command: ".buildkite/random_dad_jokes.sh"
+    command: ".buildkite/dad.sh"
     env:
       DURATION: 30
       DURATION_VARIABILITY: 30
       FAILURE_CHANCE: 2
   - label: "test"
     key: "test"
-    command: ".buildkite/random_dad_jokes.sh"
+    command: ".buildkite/dad.sh"
     env:
       DURATION: 60
       DURATION_VARIABILITY: 30
@@ -27,7 +27,7 @@ steps:
     depends_on: "build"
   - label: "deploy"
     key: "deploy"
-    command: ".buildkite/random_dad_jokes.sh"
+    command: ".buildkite/dad.sh"
     env:
       DURATION: 90
       DURATION_VARIABILITY: 60
