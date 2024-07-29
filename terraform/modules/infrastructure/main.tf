@@ -142,6 +142,17 @@ resource "aws_ssm_parameter" "buildkite_agent_token" {
   }
 }
 
+# Create SSM Parameter for Buildkite API Key
+resource "aws_ssm_parameter" "buildkite_api_key" {
+  name        = "/${var.project}/buildkite-api-key"
+  description = "Buildkite API Key for ${var.project}"
+  type        = "SecureString"
+  value       = var.buildkite_api_key
+  tags = {
+    Name = "/${var.project}/buildkite-api-key"
+  }
+}
+
 # Create SSM Parameter for Honeycomb API Key
 resource "aws_ssm_parameter" "honeycomb_api_key" {
   name        = "/${var.project}/honeycomb-api-key"
@@ -167,6 +178,7 @@ resource "aws_s3_object" "agent_env_file" {
   bucket                 = aws_s3_bucket.secrets_bucket.bucket
   key                    = "utils/files/agent.env"
   source                 = "${path.root}/utils/files/agent.env"
+  source_hash            = filemd5("${path.root}/utils/files/agent.env")
   acl                    = "private"
   server_side_encryption = "aws:kms"
 }
@@ -175,6 +187,7 @@ resource "aws_s3_object" "otel_collector_config_file" {
   bucket                 = aws_s3_bucket.secrets_bucket.bucket
   key                    = "utils/files/otel-collector-config.yaml"
   source                 = "${path.root}/utils/files/otel-collector-config.yaml"
+  source_hash            = filemd5("${path.root}/utils/files/otel-collector-config.yaml")
   acl                    = "private"
   server_side_encryption = "aws:kms"
 }
@@ -184,6 +197,16 @@ resource "aws_s3_object" "agent_startup_hook" {
   key    = "utils/hooks/agent-startup"
   content = templatefile("${path.root}/utils/hooks/agent-startup.tpl", {
     honeycomb_api_key_ssm_parameter = aws_ssm_parameter.honeycomb_api_key.name
+  })
+  acl                    = "private"
+  server_side_encryption = "aws:kms"
+}
+
+resource "aws_s3_object" "pre_exit_hook" {
+  bucket = aws_s3_bucket.secrets_bucket.bucket
+  key    = "utils/hooks/pre-exit"
+  content = templatefile("${path.root}/utils/hooks/pre-exit.tpl", {
+    buildkite_api_key_ssm_parameter = aws_ssm_parameter.buildkite_api_key.name
   })
   acl                    = "private"
   server_side_encryption = "aws:kms"

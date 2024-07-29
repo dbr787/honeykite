@@ -1,7 +1,6 @@
 #!/bin/bash
 
-# set -euo pipefail # don't print executed commands to the terminal
-set -euxo pipefail # print executed commands to the terminal
+set -euo pipefail
 
 # Set terraform variables
 SECRETS_BUCKET="${secrets_bucket}"
@@ -36,6 +35,7 @@ cp $TEMP_DIR/$OTEL_CONFIG_FILE /etc/buildkite-agent/otel/otel-collector-config.y
 
 # Change owner of otel config file
 chown -R buildkite-agent:buildkite-agent /etc/buildkite-agent/otel/
+chmod -R 777 /etc/buildkite-agent/otel
 
 # Cleanup: Remove the local temp directory
 rm -rf $TEMP_DIR

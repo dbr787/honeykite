@@ -4,6 +4,7 @@ module "infrastructure" {
   random_id             = var.random_id
   aws_region            = var.aws_region
   buildkite_agent_token = var.buildkite_agent_token
+  buildkite_api_key     = var.buildkite_api_key
   honeycomb_api_key     = var.honeycomb_api_key
 }
 

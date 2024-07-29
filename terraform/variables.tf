@@ -29,6 +29,12 @@ variable "buildkite_agent_token" {
   sensitive   = true
 }
 
+variable "buildkite_api_key" {
+  description = "The Buildkite API key"
+  type        = string
+  sensitive   = true
+}
+
 variable "honeycomb_api_key" {
   description = "The Honeycomb API key"
   type        = string

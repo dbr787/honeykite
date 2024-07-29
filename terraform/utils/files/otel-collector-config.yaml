@@ -3,12 +3,19 @@ receivers:
     protocols:
       grpc:
         endpoint: 0.0.0.0:4317
+      http:
+        endpoint: 0.0.0.0:4318
 
 exporters:
   otlp:
     endpoint: "api.honeycomb.io:443"
     headers:
       "x-honeycomb-team": "${HONEYCOMB_API_KEY}"
+  debug:
+    verbosity: normal
+    # verbosity: detailed
+  file:
+    path: /data/trace-data.json
 
 processors:
   resource:
@@ -16,10 +23,25 @@ processors:
       - key: service.name
         value: "${OTEL_SERVICE_NAME}"
         action: upsert
+  transform:
+    trace_statements:
+      - context: span
+        statements:
+          - set(attributes["custom.trace_id"], resource.attributes["buildkite.build_id"])
+          - set(attributes["custom.parent_span_id"], "${PARENT_SPAN_ID}")
+            where parent_span_id == SpanID(0x0000000000000000)
+            and span_id.string != "${PARENT_SPAN_ID}"
+          - set(attributes["custom.parent_span_id"], parent_span_id.string)
+            where parent_span_id != SpanID(0x0000000000000000)
+            and span_id.string != "${PARENT_SPAN_ID}"
 
 service:
   pipelines:
     traces:
       receivers: [otlp]
-      processors: [resource, batch]
-      exporters: [otlp]
+      processors: [resource, transform]
+      exporters: [otlp, debug, file]
+  telemetry:
+    logs:
+      level: "debug"
+      encoding: "json"

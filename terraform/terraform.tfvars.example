@@ -2,4 +2,5 @@ project = "honeykite"
 random_id = "" # provide a 6 char random id
 aws_region = "us-east-1"
 buildkite_agent_token = "your_buildkite_agent_token"
+buildkite_api_key= "your_buildkite_api_key"
 honeycomb_api_key = "your_honeycomb_api_key"
