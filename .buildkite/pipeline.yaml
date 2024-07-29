@@ -13,6 +13,7 @@ steps:
   - label: "build"
     key: "build"
     command: ".buildkite/dad.sh"
+    soft_fail: true
     env:
       DURATION: 30
       DURATION_VARIABILITY: 30
@@ -20,6 +21,7 @@ steps:
   - label: "test"
     key: "test"
     command: ".buildkite/dad.sh"
+    soft_fail: true
     env:
       DURATION: 60
       DURATION_VARIABILITY: 30
@@ -28,6 +30,7 @@ steps:
   - label: "deploy"
     key: "deploy"
     command: ".buildkite/dad.sh"
+    soft_fail: true
     env:
       DURATION: 90
       DURATION_VARIABILITY: 60
