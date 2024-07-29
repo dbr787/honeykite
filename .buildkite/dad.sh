@@ -52,7 +52,7 @@ END_TIME=$((START_TIME + RANDOM_DURATION))
 echo "Generating log output for $RANDOM_DURATION seconds..."
 
 # Read jokes into an array
-mapfile -t JOKES < .buildkite/dad_jokes
+mapfile -t JOKES < .buildkite/jokes
 JOKES_COUNT=${#JOKES[@]}
 
 while [ $(date +%s) -lt $END_TIME ]; do
