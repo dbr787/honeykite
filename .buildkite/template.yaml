@@ -3,5 +3,5 @@ name: "honeykite"
 description: "A demo pipeline for sending OpenTelemetry trace data to Honeycomb.io"
 steps:
   - label: ":pipeline:"
-  - key: "initial-pipeline-upload"
-  - command: "buildkite-agent pipeline upload"
+    key: "initial-pipeline-upload"
+    command: "buildkite-agent pipeline upload"
