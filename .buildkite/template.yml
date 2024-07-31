@@ -1,6 +1,6 @@
-name: "Bash Example"
-description: "An example repository you can use as a test project with Buildkite"
-emoji: ":bash:"
+# Used by the 'Add to Buildkite' button in README.md
+description: "A demo pipeline for sending OpenTelemetry trace data to Honeycomb.io"
 steps:
-  - command: "buildkite-agent pipeline upload"
-    label: ":pipeline:"
+  - label: ":pipeline:"
+    key: "initial-pipeline-upload"
+    command: "buildkite-agent pipeline upload"
