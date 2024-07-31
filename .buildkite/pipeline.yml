@@ -1,15 +1,4 @@
 steps:
-  # - label: "first"
-  #   key: first
-  #   command: "echo first"
-  # - label: "hi"
-  #   command: "echo hi"
-  # - label: "bye"
-  #   command: "echo bye"
-  # - label: "last"
-  #   key: last
-  #   command: "echo last"
-steps:
   - label: "build"
     key: "build"
     command: ".buildkite/dad.sh"
