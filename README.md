@@ -2,7 +2,89 @@
 
 [![Add to Buildkite](https://buildkite.com/button.svg)](https://buildkite.com/new)
 
-A demo showcasing how to send OpenTelemetry trace data from the Buildkite agent to Honeycomb.io
+A workshop/demo showcasing how to send OpenTelemetry trace data from the Buildkite agent to Honeycomb.io
+
+## Prerequisites
+
+Before partaking in this workshop, you should have the following installed and configured on your workstation;
+
+- [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)
+- [Terraform CLI](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli)
+- [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
+
+You will also need;
+
+- A GitHub account
+- An AWS account (with admin access)
+
+## Instructions
+
+1. [Fork this repository on GitHub](https://github.com/dbr787/honeykite/fork), and clone it to your workstation
+
+1. Rename the [terraform/terraform.tfvars.example](terraform/terraform.tfvars.example) file to `terraform.tfvars`  
+   Then, update the value for `project`, `random_id`, and `aws_region` in the file  
+   _This secret file will contain our project config, API keys, and tokens. It is included in the [.gitignore](.gitignore) file to ensure it is ignored by Git_
+
+1. [Click here to create a Honeycomb.io account](https://ui.honeycomb.io/signup)
+
+   1. If prompted, click the activation link sent to your email address
+   1. Provide a password, choose a team name, and click 'Create Team'
+   1. A 'test' environment will be pre-created for you. Copy the API key shown on the main page, and paste it into the `honeycomb_api_key` var in the [terraform/terraform.tfvars](terraform/terraform.tfvars) file
+
+1. [Click here to create a Buildkite account](https://buildkite.com/signup)
+
+   1. Choose a name for your Buildkite organization
+   1. If prompted, select 'Pipelines' as the product we will try out first
+   1. Skip or complete the onboarding survey
+   1. When prompted to 'Create your first pipeline', don't click any further, we're going to create our first pipeline another way in the next step
+
+1. Open your forked repository on [github.com](https://github.com), and click the `Add to Buildkite` button in the README.  
+   _This will create a pipeline in your Buildkite organization with pre-filled configuration taken from the [.buildkite/template.yml](.buildkite/template.yml) file in the repository_
+
+   1. Click 'Create Pipeline', and follow the instructions to integrate Buildkite with your GitHub repository to automatically create new builds when you push code to the repository
+
+1. Before running a build of your new pipeline, we need some agents, for this workshop we're going to deploy some self-hosted Buildkite agents on AWS. But first, we need to create an agent token and an API key
+
+   1. Click on 'Agents' in the Buildkite navigation header
+   1. We already have a default cluster, and a default queue which we can use for this project, but! we will create a new agent token
+   1. Click on 'Agent Tokens', 'New Token', call it whatever you want, and click 'Create Token'
+   1. Copy the agent token and paste it into the `buildkite_agent_token` var in the [terraform/terraform.tfvars](terraform/terraform.tfvars) file
+   1. Now we'll get a Buildkite API token which we use to query the [Builds API](https://buildkite.com/docs/apis/rest-api/builds) in our [pre-exit hook](./terraform/utils/hooks/pre-exit.tpl)
+   1. Click on your user icon in the top-right of the navigation header, click on 'Personal Settings', then click on 'API Access Tokens'
+   1. Click 'New API Access Token', give it whatever description you want, select your Buildkite organization, give it 'Read Builds' permission, and click 'Create New API Access Token'
+   1. Copy the API access token and paste it into the `buildkite_api_key` var in the [terraform/terraform.tfvars](terraform/terraform.tfvars) file
+
+1. Now we're ready to deploy some terraform!
+
+   1. Make sure you are logged in to AWS via the CLI
+
+   ```sh
+   aws sso login # or your equivalent login command
+   ```
+
+   1. Navigate in the the terraform directory, and run `terraform init`
+
+   ```sh
+   cd ./terraform
+   terraform init
+   ```
+
+   1. Now run `terraform plan`
+
+   ```sh
+   terraform plan
+   ```
+
+   1. Now run `terraform apply`
+
+   ```sh
+   terraform apply
+   # enter yes
+   ```
+
+<!--
+
+ -->
 
 ## Helpful Links
 
@@ -43,30 +125,4 @@ A demo showcasing how to send OpenTelemetry trace data from the Buildkite agent 
 - Update S3 Bucket param to SecretsBucket
 - Create pipeline and steps in this repository
 - Use a repository hook to set up OTEL collector etc.
-
-## TLDR
-
-1. Create a Honeycomb account
-1. Create a Buildkite account
-1. TBC
-
-## Instructions
-
-1. Login to your AWS account via CLI
-
-```sh
-aws sso login # or your equivalent login command
-```
-
-1. TBC
-
-## Process
-
-- Assume 3 agents on 3 different machines
-- The parent_span_id can be static, and we can upload a parent span that describes the build at the end of the build.
-- The parent_span_id should represent the build span, which should have no parent.
-
-## Temp Inst
-
 - should i have an agent.env and job.env?
-- start otel

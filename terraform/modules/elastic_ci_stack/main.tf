@@ -1,3 +1,4 @@
+# https://buildkite.com/docs/agent/v3/elastic-ci-aws/parameters
 resource "aws_cloudformation_stack" "elastic_ci_stack" {
   name         = "${var.project}-stack"
   template_url = "https://s3.amazonaws.com/buildkite-aws-stack/latest/aws-stack.yml"

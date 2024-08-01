@@ -28,3 +28,5 @@ override.tf.json
 # Ignore local terraform config
 .terraformrc
 terraform.rc
+
+screenshots/
