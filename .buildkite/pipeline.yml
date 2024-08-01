@@ -5,8 +5,8 @@ steps:
     soft_fail: true
     env:
       DURATION: 30
-      DURATION_VARIABILITY: 30
-      FAILURE_CHANCE: 2
+      DURATION_VARIABILITY: 5
+      FAILURE_CHANCE: 1
   - label: "test"
     key: "test"
     command: ".buildkite/dad.sh"
