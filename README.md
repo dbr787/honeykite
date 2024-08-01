@@ -93,8 +93,8 @@ You will also need;
 ## To Do
 
 - bootstrap should download and run scripts, so they can be changed while stack is deployed
-- move from docker to otelcol binary, store in s3
-- output otel container logs in elastic ci stack
+- move from docker to otelcol binary, store in s3 to make agent startup faster or avoid rate limiting
+- output otel container logs to elastic ci stack/cloudwatch logs
 - shouldnt need to process and set service name in otel config, agent sets it
 - use eventbridge build.started build.finished events to do stuff instead?
 - things are working! just need to change dataset in honeycomb to use custom.parent_span_id and custom.trace_id (build.id)
