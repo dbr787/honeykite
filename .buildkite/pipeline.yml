@@ -10,10 +10,11 @@ steps:
   - label: "test"
     key: "test"
     command: ".buildkite/dad.sh"
+    parallelism: 5
     soft_fail: true
     env:
-      DURATION: 60
-      DURATION_VARIABILITY: 30
+      DURATION: 20
+      DURATION_VARIABILITY: 5
       FAILURE_CHANCE: 30
     depends_on: "build"
   - label: "deploy"
@@ -21,8 +22,8 @@ steps:
     command: ".buildkite/dad.sh"
     soft_fail: true
     env:
-      DURATION: 90
-      DURATION_VARIABILITY: 60
+      DURATION: 60
+      DURATION_VARIABILITY: 30
       FAILURE_CHANCE: 10
     depends_on: "test"
   - label: "finish"
