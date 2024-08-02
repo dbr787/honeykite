@@ -7,7 +7,6 @@ steps:
       DURATION: 30
       DURATION_VARIABILITY: 5
       FAILURE_CHANCE: 1
-
   - group: "tests"
     key: "tests"
     depends_on: "build"
@@ -21,6 +20,9 @@ steps:
           DURATION: 20
           DURATION_VARIABILITY: 5
           FAILURE_CHANCE: 5
+      - label: "hi"
+        key: "hi"
+        command: "echo hi"
   - label: "deploy"
     key: "deploy"
     command: ".buildkite/dad.sh"
