@@ -7,15 +7,15 @@ steps:
       DURATION: 30
       DURATION_VARIABILITY: 5
       FAILURE_CHANCE: 1
-  - label: "test"
+  - label: "test %n or %N of %t"
     key: "test"
     command: ".buildkite/dad.sh"
     parallelism: 5
-    soft_fail: true
+    soft_fail: false
     env:
       DURATION: 20
       DURATION_VARIABILITY: 5
-      FAILURE_CHANCE: 30
+      FAILURE_CHANCE: 5
     depends_on: "build"
   - label: "deploy"
     key: "deploy"
