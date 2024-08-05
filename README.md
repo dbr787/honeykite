@@ -2,11 +2,11 @@
 
 [![Add to Buildkite](https://buildkite.com/button.svg)](https://buildkite.com/new)
 
-A workshop/demo showcasing how to send OpenTelemetry trace data from the Buildkite agent to Honeycomb.io
+An experimental workshop/demo exploring how to send OpenTelemetry trace data from the Buildkite agent to Honeycomb.io
 
 ## Prerequisites
 
-Before partaking in this workshop, you should have the following installed and configured on your workstation;
+Before partaking in this workshop, you should have the following tools installed and configured on your workstation;
 
 - [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)
 - [Terraform CLI](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli)
@@ -19,16 +19,18 @@ You will also need;
 
 ## Instructions
 
-1. [Fork this repository on GitHub](https://github.com/dbr787/honeykite/fork), and clone it to your workstation
+1. [Fork this repository on GitHub](https://github.com/dbr787/honeykite/fork), and clone it to your workstation.
 
-1. Rename the [terraform/terraform.tfvars.example](terraform/terraform.tfvars.example) file to `terraform.tfvars`  
-   Then, update the value for `project`, `random_id`, and `aws_region` in the file  
-   _This secret file will contain our project config, API keys, and tokens. It is included in the [.gitignore](.gitignore) file to ensure it is ignored by Git_
+1. Rename the [`terraform/terraform.tfvars.example`](terraform/terraform.tfvars.example) file to `terraform.tfvars`.  
+   Then, update the value for `project`, `random_id`, and `aws_region` in the file. _We'll update the other vars later._
+
+   > _The [terraform/terraform.tfvars](terraform/terraform.tfvars.example) file will contain our project config, API keys, and tokens.  
+   > It is included in the [.gitignore](.gitignore) file to ensure it is ignored by Git._
 
 1. [Click here to create a Honeycomb.io account](https://ui.honeycomb.io/signup)
 
    1. If prompted, click the activation link sent to your email address
-   1. Provide a password, choose a team name, and click 'Create Team'
+   1. If required, provide a password, choose a team name, and click 'Create Team'
    1. A 'test' environment will be pre-created for you. Copy the API key shown on the main page, and paste it into the `honeycomb_api_key` var in the [terraform/terraform.tfvars](terraform/terraform.tfvars) file
 
 1. [Click here to create a Buildkite account](https://buildkite.com/signup)
@@ -41,7 +43,7 @@ You will also need;
 1. Open your forked repository on [github.com](https://github.com), and click the `Add to Buildkite` button in the README.  
    _This will create a pipeline in your Buildkite organization with pre-filled configuration taken from the [.buildkite/template.yml](.buildkite/template.yml) file in the repository_
 
-   1. Click 'Create Pipeline', and follow the instructions to integrate Buildkite with your GitHub repository to automatically create new builds when you push code to the repository
+   1. Click 'Create Pipeline', and follow the instructions to integrate Buildkite with your GitHub repository to automatically create new builds when you push code to the repository. _You can skip this step if you don't want builds to automatically be triggered._
 
 1. Before running a build of your new pipeline, we need some agents, for this workshop we're going to deploy some self-hosted Buildkite agents on AWS. But first, we need to create an agent token and an API key
 
@@ -56,31 +58,40 @@ You will also need;
 
 1. Now we're ready to deploy some terraform!
 
-   1. Make sure you are logged in to AWS via the CLI
-
    ```sh
+   # Make sure you are logged in to AWS via the CLI
+
    aws sso login # or your equivalent login command
    ```
 
-   1. Navigate in the the terraform directory, and run `terraform init`
-
    ```sh
+   # Navigate to the terraform directory, and run `terraform init`
+
    cd ./terraform
    terraform init
    ```
 
-   1. Now run `terraform plan`
-
    ```sh
+   # Now run `terraform plan`
+
    terraform plan
    ```
 
-   1. Now run `terraform apply`
-
    ```sh
+   # Now run `terraform apply`
+
    terraform apply
    # enter yes
    ```
+
+   This should take ~10 minutes to deploy the AWS infrastructure and the [Elastic CI Stack](https://github.com/buildkite/elastic-ci-stack-for-aws)
+
+1. In Honeycomb, click on 'Data Settings', 'Definitions', and change the following fields...
+
+   - Parent span ID: `custom.parent_span_id`
+   - Trace ID: `custom.trace_id`
+
+1. You should now be able to see full build traces in Honeycomb.io
 
 <!--
 

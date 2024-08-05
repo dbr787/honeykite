@@ -16,6 +16,7 @@ steps:
       DURATION: 20
       DURATION_VARIABILITY: 5
       FAILURE_CHANCE: 5
+    depends_on: "build"
   - label: "deploy"
     key: "deploy"
     command: ".buildkite/dad.sh"
